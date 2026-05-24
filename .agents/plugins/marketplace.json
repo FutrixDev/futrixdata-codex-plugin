@@ -1,0 +1,22 @@
+{
+  "name": "futrixdata",
+  "interface": {
+    "displayName": "FutrixData"
+  },
+  "plugins": [
+    {
+      "name": "futrixdata",
+      "installPolicy": "AVAILABLE",
+      "authPolicy": "ON_USE",
+      "source": {
+        "source": "local",
+        "path": "./plugins/futrixdata"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_USE"
+      },
+      "category": "Engineering"
+    }
+  ]
+}

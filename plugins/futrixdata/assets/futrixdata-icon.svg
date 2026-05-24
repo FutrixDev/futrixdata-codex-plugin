@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">FutrixData icon</title>
+  <desc id="desc">Blue FutrixData app icon with a connected data grid mark.</desc>
+  <rect width="256" height="256" rx="48" fill="#2563EB"/>
+  <rect x="52" y="58" width="152" height="140" rx="22" fill="#FFFFFF" opacity="0.96"/>
+  <path d="M84 96h88M84 128h88M84 160h88" stroke="#2563EB" stroke-width="12" stroke-linecap="round"/>
+  <circle cx="84" cy="96" r="11" fill="#0F172A"/>
+  <circle cx="128" cy="128" r="11" fill="#0F172A"/>
+  <circle cx="172" cy="160" r="11" fill="#0F172A"/>
+  <path d="M84 96l44 32 44 32" stroke="#16A34A" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

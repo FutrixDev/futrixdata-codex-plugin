@@ -1,0 +1,45 @@
+{
+  "name": "futrixdata",
+  "version": "0.1.0",
+  "description": "Use FutrixData datasources safely from Codex through the local desktop app.",
+  "author": {
+    "name": "FutrixData",
+    "url": "https://futrixdata.com"
+  },
+  "homepage": "https://futrixdata.com/download?source=codex-plugin",
+  "repository": "https://github.com/FutrixDev/futrixdata-codex-plugin",
+  "license": "MIT",
+  "keywords": [
+    "database",
+    "mcp",
+    "datasource",
+    "sql",
+    "redis",
+    "mongodb",
+    "dynamodb"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "FutrixData",
+    "shortDescription": "Query approved local datasources from Codex.",
+    "longDescription": "Connect Codex to FutrixData Desktop so Codex can inspect schemas and run policy approved datasource operations through FutrixData's local MCP server.",
+    "developerName": "FutrixData",
+    "category": "Engineering",
+    "capabilities": [
+      "Read",
+      "Write",
+      "Interactive"
+    ],
+    "websiteURL": "https://futrixdata.com/download?source=codex-plugin",
+    "privacyPolicyURL": "https://futrixdata.com/privacy",
+    "termsOfServiceURL": "https://futrixdata.com/terms",
+    "defaultPrompt": [
+      "Use FutrixData to list my available datasources.",
+      "Use FutrixData to inspect the schema of my selected datasource."
+    ],
+    "brandColor": "#2563EB",
+    "composerIcon": "./assets/futrixdata-icon.svg",
+    "logo": "./assets/futrixdata-logo.svg"
+  }
+}

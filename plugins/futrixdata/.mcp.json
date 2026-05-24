@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "futrixdata": {
+      "command": "node",
+      "args": ["./scripts/futrixdata-codex-sidecar.mjs", "mcp"],
+      "cwd": ".",
+      "env": {
+        "FUTRIXDATA_CODEX_AUTO_OPEN": "1"
+      }
+    }
+  }
+}
