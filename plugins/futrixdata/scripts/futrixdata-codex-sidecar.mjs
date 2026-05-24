@@ -9,7 +9,7 @@ export const DOWNLOAD_URL = 'https://futrixdata.com/download?source=codex-plugin
 export const AUTHORIZE_URL = 'futrixdata://codex/connect?source=codex-plugin';
 export const FALLBACK_AUTHORIZE_URL = 'futrix://codex/connect?source=codex-plugin';
 
-const SERVER_INFO = { name: 'futrixdata', version: '0.1.0' };
+const SERVER_INFO = { name: 'futrixdata', version: '0.1.3' };
 const PROTOCOL_VERSION = '2024-11-05';
 const AUTO_OPEN_INTERVAL_MS = 6 * 60 * 60 * 1000;
 
