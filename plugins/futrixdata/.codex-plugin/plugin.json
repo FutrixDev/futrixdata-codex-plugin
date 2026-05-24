@@ -1,6 +1,6 @@
 {
   "name": "futrixdata",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Use FutrixData datasources safely from Codex through the local desktop app.",
   "author": {
     "name": "FutrixData",

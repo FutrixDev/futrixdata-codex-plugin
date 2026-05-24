@@ -35,6 +35,22 @@ function splitPathEnv() {
   return value.split(process.platform === 'win32' ? ';' : ':').filter(Boolean);
 }
 
+function commandAvailable(command) {
+  if (!command) return false;
+  if (command.includes('/') || command.includes('\\')) return isExecutable(command);
+  const names = [command];
+  if (process.platform === 'win32') {
+    const extensions = (process.env.PATHEXT || '.EXE;.CMD;.BAT;.COM')
+      .split(';')
+      .map(ext => ext.trim())
+      .filter(Boolean);
+    for (const ext of extensions) {
+      if (!command.toLowerCase().endsWith(ext.toLowerCase())) names.push(`${command}${ext}`);
+    }
+  }
+  return splitPathEnv().some(dir => names.some(name => isExecutable(join(dir, name))));
+}
+
 export function locateFutrixCLI() {
   const binaryName = process.platform === 'win32' ? 'futrixdata-cli.exe' : 'futrixdata-cli';
   const explicit = (process.env.FUTRIXDATA_CLI_PATH || '').trim();
@@ -114,8 +130,13 @@ function runCodexStatus(cliPath) {
 }
 
 export function detectSetupStatus() {
-  const cliPath = locateFutrixCLI();
   const bridge = readBridgeConfig();
+  const bridgeCLIPath = (bridge.cliPath || '').trim();
+  const explicitCLIPath = (process.env.FUTRIXDATA_CLI_PATH || '').trim();
+  const locatedCLIPath = locateFutrixCLI();
+  const cliPath = isExecutable(explicitCLIPath)
+    ? explicitCLIPath
+    : (isExecutable(bridgeCLIPath) ? bridgeCLIPath : locatedCLIPath);
   const bridgeAccessKey = (bridge.accessKey || '').trim();
   const status = runCodexStatus(cliPath);
   const codexAccessKey = bridgeAccessKey || extractAccessKeyFromCodexConfig();
@@ -214,8 +235,12 @@ function shouldAutoOpen(key, now = Date.now()) {
 }
 
 function spawnDetached(command, args) {
+  if (!commandAvailable(command)) {
+    return { ok: false, error: `${command} was not found` };
+  }
   try {
     const child = spawn(command, args, { detached: true, stdio: 'ignore' });
+    child.on('error', () => {});
     child.unref();
     return { ok: true };
   } catch (error) {
