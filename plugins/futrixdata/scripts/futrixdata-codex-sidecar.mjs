@@ -153,7 +153,7 @@ export function detectSetupStatus() {
     ready: statusKnowsReadiness
       ? Boolean(status.ready)
       : Boolean(!needsDownload && codexAuthorized && cliPath),
-    cliPath: bridge.cliPath || status.cliPath || cliPath,
+    cliPath: status.cliPath || cliPath,
     codexAuthorized,
     codexAccessKeyBound,
     codexMcpConfigured,

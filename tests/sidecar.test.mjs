@@ -151,6 +151,42 @@ test('detectSetupStatus uses the Desktop bridge CLI path when PATH discovery is 
   delete process.env.FUTRIXDATA_CODEX_PATH_ONLY;
 });
 
+test('detectSetupStatus does not expose a stale bridge CLI path when a working CLI is discovered', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'futrixdata-codex-plugin-'));
+  const home = mkdtempSync(join(tmpdir(), 'futrixdata-codex-plugin-home-'));
+  const cliPath = join(dir, 'futrixdata-cli');
+  const staleCLIPath = join(dir, 'missing-futrixdata-cli');
+  const body = JSON.stringify({
+    ready: true,
+    desktopInstalled: true,
+    desktopRunning: true,
+    cliReady: true,
+    codexDetected: true,
+    codexMcpConfigured: true,
+    codexAuthorized: true,
+    codexAuthorizationStatus: 'authorized',
+  });
+  writeFileSync(cliPath, `#!/bin/sh\nprintf '%s\\n' '${body}'\n`);
+  chmodSync(cliPath, 0o755);
+  mkdirSync(join(home, '.futrixdata'), { recursive: true });
+  writeFileSync(join(home, '.futrixdata', 'codex-plugin.json'), JSON.stringify({
+    accessKey: 'agent_stale_bridge_1234',
+    cliPath: staleCLIPath,
+  }));
+  process.env.HOME = home;
+  process.env.PATH = dir;
+  delete process.env.FUTRIXDATA_CLI_PATH;
+  process.env.FUTRIXDATA_CODEX_PATH_ONLY = '1';
+
+  const status = detectSetupStatus();
+
+  assert.equal(status.ready, true);
+  assert.equal(status.cliPath, cliPath);
+  assert.notEqual(status.cliPath, staleCLIPath);
+
+  delete process.env.FUTRIXDATA_CODEX_PATH_ONLY;
+});
+
 test('openUrl reports a missing opener without an unhandled child-process error', () => {
   const originalPath = process.env.PATH;
   process.env.PATH = '';

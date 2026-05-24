@@ -9,7 +9,7 @@ FutrixData lets Codex inspect schemas and run approved datasource operations thr
 Add this marketplace to Codex:
 
 ```bash
-codex plugin marketplace add FutrixDev/futrixdata-codex-plugin --ref v0.1.1
+codex plugin marketplace add FutrixDev/futrixdata-codex-plugin --ref v0.1.2
 ```
 
 Then open the Codex plugin directory and install FutrixData.
@@ -60,4 +60,4 @@ To revoke local authorization, open FutrixData Desktop and remove the Codex conn
 
 The root marketplace file is `.agents/plugins/marketplace.json`. It points to `./plugins/futrixdata`, so the repository can be added as a Git backed Codex marketplace.
 
-The first public tag was `v0.1.0`. Use `v0.1.1` or later for the sidecar readiness fixes that prefer the Desktop-written bridge CLI path and harden setup URL launches.
+The first public tag was `v0.1.0`. Use `v0.1.2` or later for the sidecar readiness fixes that prefer executable CLI paths, avoid stale bridge CLI paths, and harden setup URL launches.
