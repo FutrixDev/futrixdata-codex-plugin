@@ -9,9 +9,10 @@ export const DOWNLOAD_URL = 'https://futrixdata.com/download?source=codex-plugin
 export const AUTHORIZE_URL = 'futrixdata://codex/connect?source=codex-plugin';
 export const FALLBACK_AUTHORIZE_URL = 'futrix://codex/connect?source=codex-plugin';
 
-const SERVER_INFO = { name: 'futrixdata', version: '0.1.3' };
+const SERVER_INFO = { name: 'futrixdata', version: '0.1.4' };
 const PROTOCOL_VERSION = '2024-11-05';
 const AUTO_OPEN_INTERVAL_MS = 6 * 60 * 60 * 1000;
+const CODEX_STATUS_TIMEOUT_MS = 5000;
 
 const TOOL_NAMES = {
   setupStatus: 'futrixdata_setup_status',
@@ -90,7 +91,7 @@ function runCodexStatus(cliPath) {
   }
   const result = spawnSync(cliPath, ['codex', 'status', '--json'], {
     encoding: 'utf8',
-    timeout: 2500,
+    timeout: CODEX_STATUS_TIMEOUT_MS,
     maxBuffer: 512 * 1024,
   });
   if (result.error) {
@@ -105,13 +106,24 @@ function runCodexStatus(cliPath) {
   }
   const stdout = (result.stdout || '').trim();
   if (result.status !== 0) {
+    const errorText = (result.stderr || stdout || `futrixdata-cli exited ${result.status}`).trim();
+    if (isUnsupportedCodexStatus(errorText)) {
+      return {
+        ready: false,
+        cliPath,
+        cliReady: false,
+        cliStatus: 'codex_status_unsupported',
+        installUrl: DOWNLOAD_URL,
+        error: errorText,
+      };
+    }
     return {
       ready: false,
       cliPath,
       cliReady: true,
       cliStatus: 'found_but_status_failed',
       installUrl: DOWNLOAD_URL,
-      error: (result.stderr || stdout || `futrixdata-cli exited ${result.status}`).trim(),
+      error: errorText,
     };
   }
   try {
@@ -127,6 +139,16 @@ function runCodexStatus(cliPath) {
       error: `Could not parse futrixdata-cli codex status output: ${error.message}`,
     };
   }
+}
+
+function isUnsupportedCodexStatus(text) {
+  return /\bunknown command:\s*codex\b/i.test(text)
+    || /\bunknown command\s+["'`]?codex["'`]?\b/i.test(text)
+    || /\bunknown subcommand:\s*codex\b/i.test(text)
+    || /\bunknown subcommand\s+["'`]?codex["'`]?\b/i.test(text)
+    || /\bunknown codex subcommand:\s*status\b/i.test(text)
+    || /\bunknown codex subcommand\s+["'`]?status["'`]?\b/i.test(text)
+    || /\bno such command:\s*codex\b/i.test(text);
 }
 
 export function detectSetupStatus() {

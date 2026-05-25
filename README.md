@@ -9,7 +9,7 @@ FutrixData lets Codex inspect schemas and run approved datasource operations thr
 Add this marketplace to Codex:
 
 ```bash
-codex plugin marketplace add FutrixDev/futrixdata-codex-plugin --ref v0.1.3
+codex plugin marketplace add FutrixDev/futrixdata-codex-plugin --ref v0.1.4
 ```
 
 Then open the Codex plugin directory and install FutrixData.
@@ -46,7 +46,7 @@ futrixdata-cli codex status --json
 Common states:
 
 - Desktop is not installed: install FutrixData Desktop from the download link above.
-- CLI bridge is not ready: open FutrixData Desktop once.
+- CLI bridge is not ready or does not support `codex status`: install the latest FutrixData Desktop from the download link above, then open it once.
 - Desktop is not running: launch FutrixData Desktop.
 - Codex is not authorized: connect Codex from FutrixData Desktop.
 
@@ -60,4 +60,4 @@ To revoke local authorization, open FutrixData Desktop and remove the Codex conn
 
 The root marketplace file is `.agents/plugins/marketplace.json`. It points to `./plugins/futrixdata`, so the repository can be added as a Git backed Codex marketplace.
 
-The first public tag was `v0.1.0`. Use `v0.1.3` or later for the sidecar readiness fixes that prefer executable CLI paths, avoid stale bridge CLI paths, harden setup URL launches, and align the sidecar MCP server version with the plugin manifest.
+The first public tag was `v0.1.0`. Use `v0.1.4` or later for the sidecar readiness fixes that prefer executable CLI paths, avoid stale bridge CLI paths, harden setup URL launches, route old Desktop CLI builds to the download page, and align the sidecar MCP server version with the plugin manifest.
